@@ -121,17 +121,19 @@ def get_key():
 
 def get_prefer_language():
     global __PREFER_LANGUAGE__
+    if __PREFER_LANGUAGE__ is not None:
+        return __PREFER_LANGUAGE__
 
     config_file = '%s/config.ini' % constants.application_directory
     if not path.exists(config_file):
-        return constants.accepted_language
+        return None
 
     config = load_config()
     if('MapQuest' not in config):
-        return constants.accepted_language
+        return None
 
     if('prefer_language' not in config['MapQuest']):
-        return constants.accepted_language
+        return None
 
     __PREFER_LANGUAGE__ = config['MapQuest']['prefer_language']
     return __PREFER_LANGUAGE__
@@ -227,12 +229,15 @@ def lookup(**kwargs):
     prefer_language = get_prefer_language()
     key = get_key()
     prefer_english_names = get_prefer_english_names()
+    params = {'format': 'json', 'key': key}
+
+    if(prefer_language is not None):
+       params = {'format': 'json', 'accept-language': prefer_language, 'key': key}
 
     if(key is None):
         return None
 
     try:
-        params = {'format': 'json', 'accept-language': prefer_language, 'key': key}
         params.update(kwargs)
         path = '/geocoding/v1/address'
         if('lat' in kwargs and 'lon' in kwargs):
