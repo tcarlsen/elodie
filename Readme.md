@@ -3,7 +3,9 @@
 
 [![Build Status](https://travis-ci.org/jmathai/elodie.svg?branch=master)](https://travis-ci.org/jmathai/elodie) [![Coverage Status](https://coveralls.io/repos/github/jmathai/elodie/badge.svg?branch=master)](https://coveralls.io/github/jmathai/elodie?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jmathai/elodie/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/jmathai/elodie/?branch=master)
 
-I made an app from this open source project. [Download Elodie, the EXIF-based photo organizer app](https://getelodie.com).
+I made an easy to use app from this open source project. [Check out Elodie, the EXIF-based photo organizer app](https://getelodie.com).
+
+<p align="center"><img src ="https://jmathai.s3.amazonaws.com/github/elodie/elodie-folder-anim.gif" /></p>
 
 ## Quickstart guide
 
@@ -291,11 +293,11 @@ By default the resulting filename is all lowercased. To change this behavior to 
 ```
 [File]
 date=%Y-%m-%b-%H-%M-%S
-name=%date-%original_name-%title.jpg
+name=%date-%original_name-%title.%extension
 # -> 2012-05-mar-12-59-30-dsc_1234-my-title.jpg
 
 date=%Y-%m-%b-%H-%M-%S
-name=%date-%original_name-%album.jpg
+name=%date-%original_name-%album.%extension
 capitalization=upper
 # -> 2012-05-MAR-12-59-30-DSC_1234-MY-ALBUM.JPG
 ```
@@ -381,7 +383,7 @@ When I organize photos I look at the embedded metadata. Here are the details of 
 | Dimension | Fields | Notes |
 |---|---|---|
 | Date Taken (photo) | EXIF:DateTimeOriginal, EXIF:CreateDate, EXIF:ModifyDate, file created, file modified |   |
-| Date Taken (video, audio) | QuickTime:CreationDate, QuickTime:CreationDate-und-US, QuickTime:MediaCreateDate, file created, file modified |   |
+| Date Taken (video, audio) | QuickTime:CreationDate, QuickTime:CreateDate, QuickTime:CreationDate-und-US, QuickTime:MediaCreateDate, H264:DateTimeOriginal, file created, file modified |   |
 | Location (photo) | EXIF:GPSLatitude/EXIF:GPSLatitudeRef, EXIF:GPSLongitude/EXIF:GPSLongitudeRef  |   |
 | Location (video, audio) | XMP:GPSLatitude, Composite:GPSLatitude, XMP:GPSLongitude, Composite:GPSLongitude | Composite tags are read-only |
 | Title (photo) | XMP:Title |   |
