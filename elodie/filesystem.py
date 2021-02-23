@@ -405,7 +405,7 @@ class FileSystem(object):
             date_mask = ''
             if 'date' in config_directory:
                 date_mask = config_directory['date']
-            return time.strftime(date_mask, metadata['date_taken'])
+            return time.strftime(date_mask, metadata['date_taken']).lower()
         elif part in ('day', 'month', 'year'):
             return time.strftime(mask, metadata['date_taken'])
         elif part in ('location', 'city', 'state', 'country'):
