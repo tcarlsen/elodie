@@ -21,7 +21,7 @@ from elodie.localstorage import Db
 __KEY__ = None
 __DEFAULT_LOCATION__ = 'Unknown Location'
 __PREFER_ENGLISH_NAMES__ = None
-
+__PREFER_LANGUAGE__ = None
 
 def coordinates_by_name(name):
     # Try to get cached location first
@@ -114,6 +114,25 @@ def get_key():
 
     __KEY__ = config['MapQuest']['key']
     return __KEY__
+
+def get_prefer_language():
+    global __PREFER_LANGUAGE__
+    if __PREFER_LANGUAGE__ is not None:
+        return __PREFER_LANGUAGE__
+
+    config_file = '%s/config.ini' % constants.application_directory
+    if not path.exists(config_file):
+        return None
+
+    config = load_config()
+    if('MapQuest' not in config):
+        return None
+
+    if('prefer_language' not in config['MapQuest']):
+        return None
+
+    __PREFER_LANGUAGE__ = config['MapQuest']['prefer_language']
+    return __PREFER_LANGUAGE__
 
 def get_prefer_english_names():
     global __PREFER_ENGLISH_NAMES__
@@ -208,8 +227,13 @@ def lookup(**kwargs):
     if('lat' in kwargs and 'lon' in kwargs):
         kwargs['location'] = '{},{}'.format(kwargs['lat'], kwargs['lon'])
 
+    prefer_language = get_prefer_language()
     key = get_key()
     prefer_english_names = get_prefer_english_names()
+    params = {'format': 'json', 'key': key}
+
+    if(prefer_language is not None):
+       params = {'format': 'json', 'accept-language': prefer_language, 'key': key}
 
     if(key is None):
         return None
@@ -263,7 +287,7 @@ def parse_result(result):
 
 def parse_result_address(result):
     # We want to store the city, state and country
-    # The only way determined to identify an unfound address is 
+    # The only way determined to identify an unfound address is
     #   that none of the indicies were found
     if( 'results' not in result or
         len(result['results']) == 0 or
