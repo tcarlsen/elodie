@@ -232,9 +232,6 @@ def lookup(**kwargs):
     prefer_english_names = get_prefer_english_names()
     params = {'format': 'json', 'key': key}
 
-    if(prefer_language is not None):
-       params = {'format': 'json', 'accept-language': prefer_language, 'key': key}
-
     if(key is None):
         return None
 
@@ -244,6 +241,9 @@ def lookup(**kwargs):
         if(prefer_english_names):
             headers = {'Accept-Language':'en-EN,en;q=0.8'}
             params['locale'] = 'en_US'
+        if(prefer_language is not None):
+            headers = {'Accept-Language':'en-EN,en;q=0.8'}
+            params['locale'] = prefer_language
         params.update(kwargs)
         path = '/geocoding/v1/address'
         if('lat' in kwargs and 'lon' in kwargs):
