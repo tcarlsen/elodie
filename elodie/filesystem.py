@@ -585,7 +585,8 @@ class FileSystem(object):
             if(exif_original_file_exists is True):
                 # Move the newly processed file with any updated tags to the
                 # destination directory
-                shutil.move(_file, dest_path)
+                #shutil.move(_file, dest_path)
+                compatability._copyfile(_file, dest_path)
                 # Move the exif _original back to the initial source file
                 shutil.move(exif_original_file, _file)
             else:
